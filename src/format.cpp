@@ -1,6 +1,6 @@
 #include <string>
 #include "format.h"
-#include <strstream>
+#include <sstream>
 #include <iomanip>
 
 using std::string;
