@@ -12,19 +12,14 @@ using std::to_string;
 // REMOVE: [[maybe_unused]] once you define the function
 string Format::ElapsedTime(long seconds) 
 {
-    int hours{0}, mins{0}, rem_sec {0};
+    int hours = seconds / 3600;
+    int minutes = (seconds % 3600) / 60;
+    int secs = (seconds % 3600) % 60;
 
-    hours = seconds / 3600;
-    rem_sec = seconds % 3600;
-    mins = rem_sec / 60;
-    rem_sec %= 60;
-
-    std::ostringstream myStream;
-    myStream << std::setw('2') << std::setfill('0') << hours << ":" 
-             << std::setw('2') << std::setfill('0') << mins << ":"
-             << std::setw('2') << std::setfill('0') << rem_sec;
-    
-     return myStream.str(); 
-        
+    std::ostringstream ss;
+    ss << std::setfill('0') << std::setw(2) << hours << ':'
+       << std::setfill('0') << std::setw(2) << minutes << ':'
+       << std::setfill('0') << std::setw(2) << secs;
+    return ss.str();      
      
 }
