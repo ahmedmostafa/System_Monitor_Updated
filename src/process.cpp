@@ -6,6 +6,7 @@
 #include "linux_parser.h"
 #include "process.h"
 #include <unistd.h>
+#include <thread>
 
 using std::string;
 using std::to_string;
@@ -22,9 +23,19 @@ int Process::Pid() { return pPid;}
 float Process::CpuUtilization() 
 {
 
-    auto pActiveTime = (LinuxParser::ActiveJiffies(pPid) / sysconf(_SC_CLK_TCK));
-    pCpuUtilization = pActiveTime / UpTime();
-    return pCpuUtilization;    
+ auto pActiveTime = ((float)LinuxParser::ActiveJiffies(pPid) / sysconf(_SC_CLK_TCK));
+    pCpuUtilization = 100*pActiveTime / UpTime();
+    return pCpuUtilization;   
+
+
+  /*  int numCpus=std::thread::hardware_concurrency();
+    std::string line,uptime, idletime; 
+    std::ifstream stream(LinuxParser::kProcDirectory + LinuxParser::kUptimeFilename); 
+    if (stream.is_open()) { std::getline(stream, line); 
+    std::istringstream linestream(line); linestream >> uptime >> idletime; 
+    }
+    float usageRatio=(numCpus*std::stol(uptime) - std::stol(idletime)); 
+    return usageRatio/(numCpus*std::stol(uptime));*/
 }
 
 // TODO: Return the command that generated this process

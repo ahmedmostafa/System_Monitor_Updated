@@ -30,6 +30,7 @@ vector<Process>& System::Processes()
     Process p(pidint);
     processes_.emplace_back(p);
   }
+  std::sort(processes_.begin(), processes_.end());
   return processes_; 
 }
 
